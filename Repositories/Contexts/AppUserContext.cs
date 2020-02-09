@@ -11,25 +11,17 @@ namespace Readr.Repositories.Contexts
         //Entities
         public DbSet<AppUser> AppUsers { get; set; }
 
-        //Sql Connection
-        private string _connection = null;
-
-        public AppUserContext(string sqlConnection) : base()
+        public AppUserContext(DbContextOptions<AppUserContext> options) : base(options)
         {
-            _connection = sqlConnection;
         }
 
         //Tell DbContext what interface to use use with the connection
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_connection);
         }
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-
-        //}
-
-
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+        }
     }
 }

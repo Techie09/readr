@@ -1,10 +1,12 @@
 ﻿using System.Data.SqlClient;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Readr.Repositories;
+using Readr.Repositories.Contexts;
 using Readr.Repositories.Interfaces;
 using Services;
 
@@ -34,6 +36,10 @@ namespace Readr.Api
             _config.GetConnectionString("connectionstring"));
             builder.Password = _config["DbPassword"];
             _connection = builder.ConnectionString;
+
+            //add DbContext
+            services.AddDbContext<AppUserContext>(options =>
+            options.UseSqlServer(_connection));
 
             //handle dependency injections
             services.AddScoped<IAppUserService, AppUserService>();
