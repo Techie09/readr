@@ -2,12 +2,20 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
+using Services;
 
 namespace Readr.Api.Controllers
 {
     [Route("AppUser")]
     public class AppUserController: Controller
     {
+        private IAppUserService _appUserService;
+
+        public AppUserController()
+        {
+
+        }
+
         [HttpPost("add/{userName}")]
         public IActionResult AddAppUser(string userName)
         {

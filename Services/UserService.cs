@@ -52,7 +52,8 @@ namespace Services
             if (!disposedValue)
             {
                 if (disposing)
-                {
+                {                    
+                    //_appUserRepo.Dispose()
                     // TODO: dispose managed state (managed objects).
                 }
 
