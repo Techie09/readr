@@ -4,6 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Readr.Repositories;
+using Readr.Repositories.Interfaces;
+using Services;
 
 namespace Readr.Api
 {
@@ -31,6 +34,10 @@ namespace Readr.Api
             _config.GetConnectionString("connectionstring"));
             builder.Password = _config["DbPassword"];
             _connection = builder.ConnectionString;
+
+            //handle dependency injections
+            services.AddScoped<IAppUserService, AppUserService>();
+            services.AddScoped<IAppUserRepository, AppUserRepository>();
 
             if (_env.IsDevelopment())
             {

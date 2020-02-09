@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataObjects\DataObjects.csproj" />
+    <ProjectReference Include="..\Repositories\Repositories.csproj" />
   </ItemGroup>
 
 </Project>
