@@ -9,28 +9,40 @@ namespace Readr.Api.Controllers
     [Route("AppUser")]
     public class AppUserController: Controller
     {
-        private IAppUserService _appUserService;
+        private readonly IAppUserService _appUserService;
 
-        public AppUserController()
+        public AppUserController(IAppUserService appUserService)
         {
-
+            _appUserService = appUserService;
         }
 
-        [HttpPost("add/{userName}")]
-        public IActionResult AddAppUser(string userName)
+        [HttpPost("/add/{username}")]
+        public IActionResult AddAppUser(string username)
         {
-            //Add AppUser to Db
-            //verify the username does not already exists
-            return Ok();
-
-            //if the usename already exists, return error message
+            try
+            {
+                var appUser = _appUserService.AddAppUser(username);
+                return Ok(appUser);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
-        [HttpPost("login/{username}")]
+        [HttpPost("/login/{username}")]
         public IActionResult LoginAppUser(string username)
         {
             //verify the AppUser exists
-            return Ok();
+            try
+            {
+                //var appUser = _appUserService.LoginAppUser(username);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
 
             //If the user does not exists, throwe error message
         }
