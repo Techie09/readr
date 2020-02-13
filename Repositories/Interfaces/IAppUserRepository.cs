@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Readr.DataObjects;
+using System.Threading.Tasks;
+using Readr.Models;
 
 namespace Readr.Repositories.Interfaces
 {
-    public interface IAppUserRepository
+    public interface IAppUserRepository : IDisposable
     {
-        IEnumerable<AppUser> GetAppUsers();
-        AppUser GetAppUser(int appUserId);
-        AppUser GetAppUser(string username);
-        AppUser AddAppUser(AppUser appUser);
-        void Save();
+        IAsyncEnumerable<AppUser> GetAppUsersAsync();
+        Task<AppUser> GetAppUserByIdAsync(string id);
+        Task<AppUser> GetAppUserByUsernameAsync(string username);
+        Task<AppUser> AddAppUserAsync(AppUser appUser);
     }
 }

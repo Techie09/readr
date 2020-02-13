@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public abstract class WebRequestController
@@ -12,15 +14,19 @@ public abstract class WebRequestController
         _rootPath = !String.IsNullOrWhiteSpace(rootPath) ? rootPath : "http://localhost:5000/";
     }
 
-    public WebResponse Post(string uri)
+    public async Task<HttpResponseMessage> Post(string uri)
     {
         try
         {
             var requestUrl = $"{_rootPath}{uri}";
-            Debug.Log(requestUrl);
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(requestUrl);
-            Debug.Log(request.GetResponse());
-            return request.GetResponse();
+            HttpClient client = new HttpClient();
+            var response = await client.PostAsync(requestUrl, new StringContent(""));
+            return response;
+
+            // Debug.Log(requestUrl);
+            // HttpWebRequest request = (HttpWebRequest)WebRequest.Create(requestUrl);
+            // Debug.Log(request.GetResponse());
+            // return request.GetResponse();
         }
         catch (Exception ex)
         {
@@ -31,16 +37,12 @@ public abstract class WebRequestController
 
 public static class ExtensionMethods
 {
-    public static T GetData<T>(this WebResponse response)
+    public static async Task<T> GetData<T>(this HttpResponseMessage response)
     {
         try
         {
-            string jsonResponse = String.Empty;
-            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-            {
-                jsonResponse = reader.ReadToEnd();
-            }
-
+            string jsonResponse = await (response.Content.ReadAsStringAsync());
+            Debug.Log($"from http response {response.Headers.Location} and produced result: {Environment.NewLine}{jsonResponse}");
             return !String.IsNullOrWhiteSpace(jsonResponse) ? JsonUtility.FromJson<T>(jsonResponse) : default;
         }
         catch (Exception ex)

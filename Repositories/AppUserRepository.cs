@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Transactions;
-using Readr.DataObjects;
-using Readr.Repositories.Contexts;
+using System.Threading.Tasks;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using Readr.Models;
 using Readr.Repositories.Interfaces;
 
 namespace Readr.Repositories
@@ -16,15 +17,20 @@ namespace Readr.Repositories
         /// <summary>
         /// Defines the context used by the repository to make changes to a datastore
         /// </summary>
-        private AppUserContext _context;
+        private MongoClient _client;
+
+        private IMongoDatabase _db;
+        private IMongoCollection<AppUser> _users;
 
         /// <summary>
         /// Initializes the AppUserRepository with a given AppUserContext
         /// </summary>
         /// <param name="context"></param>
-        public AppUserRepository(AppUserContext context)
+        public AppUserRepository()
         {
-            _context = context;
+            _client = new MongoClient("mongodb://localhost:27017");
+            _db = _client.GetDatabase("Readr");
+            _users = _db.GetCollection<AppUser>("Users");
         }
 
         #region IAppUserRepository Support
@@ -32,20 +38,29 @@ namespace Readr.Repositories
         /// returns a list of all appUsers from the repository.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<AppUser> GetAppUsers()
+        public async IAsyncEnumerable<AppUser> GetAppUsersAsync()
         {
-            return _context.AppUsers.ToList();
+            using (IAsyncCursor<AppUser> cursor = await _users.FindAsync(new BsonDocument()))
+            {
+                IEnumerable<AppUser> batch = cursor.Current;
+                foreach (AppUser document in batch)
+                {
+                    yield return document;
+                }
+            }
+
+            //return _users.Find(new BsonDocument())();
         }
 
         /// <summary>
         /// returns the first appUser found that matches the AppuserId
         /// if no appUser is found, default value of appUser is returned instead.
         /// </summary>
-        /// <param name="appUserId"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        public AppUser GetAppUser(int appUserId)
+        public async Task<AppUser> GetAppUserByIdAsync(string id)
         {
-            return _context.AppUsers.FirstOrDefault(au => au.AppUserId.Equals(appUserId));
+            return await _users.Find(u => u.Id == ObjectId.Parse(id)).SingleOrDefaultAsync();
         }
 
         /// <summary>
@@ -54,9 +69,9 @@ namespace Readr.Repositories
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
-        public AppUser GetAppUser(string username)
+        public async Task<AppUser> GetAppUserByUsernameAsync(string username)
         {
-            return _context.AppUsers.FirstOrDefault(au => au.Username.Equals(username));
+            return await _users.Find(u => u.Username == username).SingleOrDefaultAsync();
         }
 
         /// <summary>
@@ -64,30 +79,10 @@ namespace Readr.Repositories
         /// </summary>
         /// <param name="appUser"></param>
         /// <returns>returns an instance of the AppUser that was added to the repository</returns>
-        public AppUser AddAppUser(AppUser appUser)
+        public async Task<AppUser> AddAppUserAsync(AppUser appUser)
         {
-            _context.AppUsers.Add(appUser);
+            await _users.InsertOneAsync(appUser);
             return appUser;
-        }
-
-        /// <summary>
-        /// Commits changes to the Repository within a transactionscope and try catch to handle and rollback changes if an error occurs.
-        /// </summary>
-        public void Save()
-        {
-            using (var transactionScope = new TransactionScope())
-            {
-                try
-                {
-                    _context.SaveChanges();
-                    transactionScope.Complete();
-                }
-                catch (Exception ex)
-                {
-                    //TODO: handle error logging
-                }
-            }
-            
         }
         #endregion
 
@@ -100,7 +95,6 @@ namespace Readr.Repositories
             {
                 if (disposing)
                 {
-                    _context.Dispose();
                     // TODO: dispose managed state (managed objects).
                 }
 

@@ -1,65 +1,66 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class btnLoginHandler : MonoBehaviour
+public class btnCreateAccountHandler : MonoBehaviour
 {
     public Text lblMessage;
     public InputField txtUsername;
-    public Button btnLogin;
+    public Button btnCreateAccount;
 
     private AppUserController _appUserClient;
 
-    public btnLoginHandler()
+    public btnCreateAccountHandler()
     {
         _appUserClient = new AppUserController();
     }
 
-    //// Start is called before the first frame update
+
+    // Start is called before the first frame update
     void Start()
     {
-        Button btn = btnLogin.GetComponent<Button>();
-        btn.onClick.AddListener(() => AttemptLogin());
+        Button btn = btnCreateAccount.GetComponent<Button>();
+        btn.onClick.AddListener(() => AttemptCreateAccount());
     }
 
-    //// Update is called once per frame
+    // Update is called once per frame
     //void Update()
     //{
-
+        
     //}
 
-    public async void AttemptLogin()
+    public async void AttemptCreateAccount()
     {
-        try {
-            Debug.Log("btnLogin clicked");
+        try
+        {
+            Debug.Log("btnCreateAccount clicked");
 
             string username = txtUsername.text;
             if (!String.IsNullOrWhiteSpace(username))
             {
                 try
                 {
-                    var appUserResult = await _appUserClient.LoginAppUser(username);
+                    var appUserResult = await _appUserClient.AddAppUser(username);
                     if (appUserResult != null)
                     {
-                        //redirect to next scene => Session Setup
+                        lblMessage.text = $"{username} was added successfully";
                     }
                     else
                     {
-                        lblMessage.text = $"Error occured and {username} could not login";
+                        lblMessage.text = $"Error occured and {username} could not be added";
                     }
                 }
                 catch (Exception ex)
                 {
                     lblMessage.text = ex.Message;
                 }
-
             }
+        }
+        catch (Exception ex)
+        {
 
-        } catch(Exception ex) {
-            //add logging
         }
     }
 }

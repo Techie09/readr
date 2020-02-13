@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Readr.Assets.Scripts.DataObjects;
 using UnityEngine;
 
 public class AppUserController : WebRequestController
@@ -9,13 +11,14 @@ public class AppUserController : WebRequestController
         
     }
 
-    public AppUser AddAppUser(string username)
+    public async Task<AppUser> AddAppUser(string username)
     {
-        return Post($"/add/{username}").GetData<AppUser>();
+        var response = await Post($"/add/{username}"); 
+        return await response.GetData<AppUser>();
     }
 
-    public AppUser LoginAppUser(string username)
+    public async Task<AppUser> LoginAppUser(string username)
     {
-        return Post($"/login/{username}").GetData<AppUser>();
+        return await ( await Post($"/login/{username}")).GetData<AppUser>();
     }
 }

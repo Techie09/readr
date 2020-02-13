@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Readr.DataObjects;
+using System.Threading.Tasks;
+using Readr.Models;
 
 namespace Services
 {
     public interface IAppUserService
     {
-        AppUser AddAppUser(string username);
+        Task<AppUser> AddAppUserAsync(string username);
     }
 }

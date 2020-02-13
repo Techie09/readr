@@ -1,5 +1,6 @@
 ﻿using System;
-using Readr.DataObjects;
+using System.Threading.Tasks;
+using Readr.Models;
 using Readr.Repositories.Interfaces;
 
 namespace Services
@@ -13,35 +14,26 @@ namespace Services
             _appUserRepo = appUserRepo;
         }
 
-        public AppUser AddAppUser(string username)
+        public async Task<AppUser> AddAppUserAsync(string username)
         {
             try
             {
-                var existingAppUser = _appUserRepo.GetAppUser(username);
+                var existingAppUser = await _appUserRepo.GetAppUserByUsernameAsync(username).ConfigureAwait(false);
 
                 //Check if the username already exists
                 if (existingAppUser == null)
                 {
                     //if the appUser does not exist, create it
-                    var newAppUser = new AppUser() { Username = username };
-                    var appUserResult = _appUserRepo.AddAppUser(newAppUser);
-                    if (appUserResult != null)
-                    {
-                        _appUserRepo.Save();
-
-                        //adding appUser was successful
-                        return appUserResult;
-                    }
+                    return await _appUserRepo.AddAppUserAsync(AppUser.CreateUserAsync(username).Result).ConfigureAwait(false);
                 }
 
                 //adding appUser failed
                 return null;
             }
-            catch
+            catch (Exception ex)
             {
-
+                throw;
             }
-            throw new NotImplementedException();
         }
 
         #region IDisposable Support
@@ -52,8 +44,8 @@ namespace Services
             if (!disposedValue)
             {
                 if (disposing)
-                {                    
-                    //_appUserRepo.Dispose()
+                {
+                    _appUserRepo.Dispose();
                     // TODO: dispose managed state (managed objects).
                 }
 

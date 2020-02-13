@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 
@@ -16,12 +17,12 @@ namespace Readr.Api.Controllers
             _appUserService = appUserService;
         }
 
-        [HttpPost("/add/{username}")]
-        public IActionResult AddAppUser(string username)
+        [HttpPost("add/{username}")]
+        public async Task<IActionResult> AddAppUserAsync(string username)
         {
             try
             {
-                var appUser = _appUserService.AddAppUser(username);
+                var appUser = await _appUserService.AddAppUserAsync(username).ConfigureAwait(false);
                 return Ok(appUser);
             }
             catch (Exception ex)
@@ -30,8 +31,8 @@ namespace Readr.Api.Controllers
             }
         }
 
-        [HttpPost("/login/{username}")]
-        public IActionResult LoginAppUser(string username)
+        [HttpPost("login/{username}")]
+        public async Task<IActionResult> LoginAppUserAsync(string username)
         {
             //verify the AppUser exists
             try

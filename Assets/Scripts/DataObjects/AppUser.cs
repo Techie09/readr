@@ -1,10 +1,14 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-public class AppUser
+namespace Readr.Assets.Scripts.DataObjects
 {
-    public int AppUserId { get; set; }
-    
-    public string Username { get; set; }
+    public class AppUser
+    {
+        string Id { get; set; }
+        string Username { get; set; }
+    }
 }
