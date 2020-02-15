@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RootNamespace>Readr.Repositories</RootNamespace>
+    <AssemblyName>Readr.Repositories</AssemblyName>
+    <FileUpgradeFlags>40</FileUpgradeFlags>
+    <UpgradeBackupLocation>E:\Repos\Readr\Backup\Repositories\</UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Bson" Version="2.10.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.10.1" />
+    <PackageReference Include="MongoDB.Driver.Core" Version="2.10.1" />
+    <PackageReference Include="RxJS-Main" Version="4.0.7" />
+    <PackageReference Include="System.Reactive" Version="4.3.2" />
+    <PackageReference Include="Unity" Version="5.11.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataObjects\Models.csproj" />
+  </ItemGroup>
+</Project>
