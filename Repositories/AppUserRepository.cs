@@ -58,9 +58,9 @@ namespace Readr.Repositories
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<AppUser> GetAppUserByIdAsync(string id)
+        public async Task<AppUserDto> GetAppUserByIdAsync(string id)
         {
-            return await _users.Find(u => u.Id == ObjectId.Parse(id)).SingleOrDefaultAsync();
+            return await await _users.Find(u => u.Id == ObjectId.Parse(id)).Project(u => u.MapToDto()).SingleOrDefaultAsync();
         }
 
         /// <summary>
@@ -69,9 +69,9 @@ namespace Readr.Repositories
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
-        public async Task<AppUser> GetAppUserByUsernameAsync(string username)
+        public async Task<AppUserDto> GetAppUserByUsernameAsync(string username)
         {
-            return await _users.Find(u => u.Username == username).SingleOrDefaultAsync();
+            return await await _users.Find(u => u.Username == username).Project(u => u.MapToDto()).SingleOrDefaultAsync();
         }
 
         /// <summary>
@@ -79,10 +79,10 @@ namespace Readr.Repositories
         /// </summary>
         /// <param name="appUser"></param>
         /// <returns>returns an instance of the AppUser that was added to the repository</returns>
-        public async Task<AppUser> AddAppUserAsync(AppUser appUser)
+        public async Task<AppUserDto> AddAppUserAsync(AppUser appUser)
         {
             await _users.InsertOneAsync(appUser);
-            return appUser;
+            return await appUser.MapToDto();
         }
         #endregion
 

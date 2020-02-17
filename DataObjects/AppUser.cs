@@ -24,8 +24,20 @@ namespace Readr.Models
             {
                 Id = ObjectId.GenerateNewId(),
                 Username = username
-            }); ;
+            });
         }
 
+    }
+
+    public static partial class ExtensionMethods
+    {
+        public static async Task<AppUserDto> MapToDto(this AppUser appUser)
+        {
+            return await Task.FromResult(new AppUserDto()
+            {
+                Id = appUser.Id.ToString(),
+                Username = appUser.Username
+            });
+        }
     }
 }

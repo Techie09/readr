@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Readr.Models;
 
-namespace Services
+namespace Readr.Services.Interfaces
 {
     public interface IAppUserService
     {
-        Task<AppUser> AddAppUserAsync(string username);
+        Task<AppUserDto> AddAppUserAsync(string username);
+        Task<AppUserDto> LoginAppUserAsync(string username);
     }
 }

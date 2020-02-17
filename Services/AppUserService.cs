@@ -2,8 +2,9 @@
 using System.Threading.Tasks;
 using Readr.Models;
 using Readr.Repositories.Interfaces;
+using Readr.Services.Interfaces;
 
-namespace Services
+namespace Readr.Services
 {
     public class AppUserService : IAppUserService, IDisposable
     {
@@ -14,7 +15,7 @@ namespace Services
             _appUserRepo = appUserRepo;
         }
 
-        public async Task<AppUser> AddAppUserAsync(string username)
+        public async Task<AppUserDto> AddAppUserAsync(string username)
         {
             try
             {
@@ -29,6 +30,20 @@ namespace Services
 
                 //adding appUser failed
                 return null;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public async Task<AppUserDto> LoginAppUserAsync(string username)
+        {
+            try
+            {
+                //return the AppUser if the AppUserExists. 
+                var existingAppUser = await _appUserRepo.GetAppUserByUsernameAsync(username).ConfigureAwait(false);
+                return existingAppUser;
             }
             catch (Exception ex)
             {

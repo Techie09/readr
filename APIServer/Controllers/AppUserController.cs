@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Services;
+using Readr.Services.Interfaces;
 
 namespace Readr.Api.Controllers
 {
@@ -37,8 +35,9 @@ namespace Readr.Api.Controllers
             //verify the AppUser exists
             try
             {
-                //var appUser = _appUserService.LoginAppUser(username);
-                return Ok();
+                var appUser = await _appUserService.LoginAppUserAsync(username);
+
+                return Ok(appUser);
             }
             catch (Exception ex)
             {

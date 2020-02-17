@@ -1,8 +1,7 @@
 ﻿using System;
-using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Readr.Assets.Scripts.Models;
 using UnityEngine;
 
 public abstract class WebRequestController
@@ -18,6 +17,8 @@ public abstract class WebRequestController
     {
         try
         {
+            Debug.Log($"Post to { _rootPath}{ uri}");
+
             var requestUrl = $"{_rootPath}{uri}";
             HttpClient client = new HttpClient();
             var response = await client.PostAsync(requestUrl, new StringContent(""));
@@ -30,6 +31,7 @@ public abstract class WebRequestController
         }
         catch (Exception ex)
         {
+            Debug.LogError(ex);
             throw;
         }
     }
@@ -37,16 +39,50 @@ public abstract class WebRequestController
 
 public static class ExtensionMethods
 {
-    public static async Task<T> GetData<T>(this HttpResponseMessage response)
+    public static async Task<AppUser> GetAppUserData(this HttpResponseMessage response)
     {
         try
         {
-            string jsonResponse = await (response.Content.ReadAsStringAsync());
-            Debug.Log($"from http response {response.Headers.Location} and produced result: {Environment.NewLine}{jsonResponse}");
-            return !String.IsNullOrWhiteSpace(jsonResponse) ? JsonUtility.FromJson<T>(jsonResponse) : default;
+            Debug.Log($"Getting Data for {typeof(AppUser)} from {response.Content}");
+
+            var json = await response.Content.ReadAsStringAsync();
+            Debug.Log($"from http response {response.RequestMessage.RequestUri} and produced result: {Environment.NewLine}{json}");
+            if(!String.IsNullOrWhiteSpace(json))
+            {
+                AppUser jsonResult = new AppUser();
+                //T jsonResult = JsonUtility.FromJson<T>(json.Result);
+                JsonUtility.FromJsonOverwrite(json.Replace(@"\",""), jsonResult);
+                return jsonResult;
+            }
+            return default;
         }
         catch (Exception ex)
         {
+            Debug.LogError(ex);
+            throw;
+        }
+    }
+
+    public static async Task<UserSession> GetUserSessionData(this HttpResponseMessage response)
+    {
+        try
+        {
+            Debug.Log($"Getting Data for {typeof(UserSession)} from {response.Content}");
+
+            var json = await response.Content.ReadAsStringAsync();
+            Debug.Log($"from http response {response.RequestMessage.RequestUri} and produced result: {Environment.NewLine}{json}");
+            if (!String.IsNullOrWhiteSpace(json))
+            {
+                UserSession jsonResult = new UserSession();
+                //T jsonResult = JsonUtility.FromJson<T>(json.Result);
+                JsonUtility.FromJsonOverwrite(json, jsonResult);
+                return jsonResult;
+            }
+            return default;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError(ex);
             throw;
         }
     }

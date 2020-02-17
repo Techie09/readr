@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 257808539}
   - component: {fileID: 257808538}
   - component: {fileID: 257808537}
+  - component: {fileID: 257808540}
   m_Layer: 5
   m_Name: btnCreateAccount
   m_TagString: MainCamera
@@ -238,6 +239,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 257808535}
   m_CullTransparentMesh: 0
+--- !u!114 &257808540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 257808535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62495152e8eadf740b739985f41e3066, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lblMessage: {fileID: 281114281}
+  txtUsername: {fileID: 1700752762}
+  btnCreateAccount: {fileID: 257808537}
 --- !u!1 &281114279
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,8 +288,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 175}
-  m_SizeDelta: {x: 200, y: 60}
+  m_AnchoredPosition: {x: 0, y: 200}
+  m_SizeDelta: {x: 900, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &281114281
 MonoBehaviour:
@@ -306,10 +322,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Error Has Occured!
-
-
-    Please Try again Later.'
+  m_Text: 
 --- !u!222 &281114282
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1024,6 +1037,7 @@ GameObject:
   - component: {fileID: 1437776639}
   - component: {fileID: 1437776638}
   - component: {fileID: 1437776637}
+  - component: {fileID: 1437776640}
   m_Layer: 5
   m_Name: btnLogin
   m_TagString: MainCamera
@@ -1130,6 +1144,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1437776635}
   m_CullTransparentMesh: 0
+--- !u!114 &1437776640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437776635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f623734193836b4db8eed8dbb6931f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lblMessage: {fileID: 281114281}
+  txtUsername: {fileID: 1700752762}
+  btnLogin: {fileID: 1437776637}
 --- !u!1 &1700752760
 GameObject:
   m_ObjectHideFlags: 0

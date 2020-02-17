@@ -9,8 +9,8 @@ namespace Readr.Repositories.Interfaces
     public interface IAppUserRepository : IDisposable
     {
         IAsyncEnumerable<AppUser> GetAppUsersAsync();
-        Task<AppUser> GetAppUserByIdAsync(string id);
-        Task<AppUser> GetAppUserByUsernameAsync(string username);
-        Task<AppUser> AddAppUserAsync(AppUser appUser);
+        Task<AppUserDto> GetAppUserByIdAsync(string id);
+        Task<AppUserDto> GetAppUserByUsernameAsync(string username);
+        Task<AppUserDto> AddAppUserAsync(AppUser appUser);
     }
 }

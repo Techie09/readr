@@ -9,7 +9,8 @@ using Microsoft.Extensions.Options;
 using Readr.Models;
 using Readr.Repositories;
 using Readr.Repositories.Interfaces;
-using Services;
+using Readr.Services;
+using Readr.Services.Interfaces;
 
 namespace Readr.Api
 {
@@ -58,6 +59,8 @@ namespace Readr.Api
             //handle dependency injections
             services.AddScoped<IAppUserService, AppUserService>();
             services.AddScoped<IAppUserRepository, AppUserRepository>();
+            services.AddScoped<IUserSessionService, UserSessionService>();
+            services.AddScoped<IUserSessionRepository, UserSessionRepository>();
         }
 
         public void Configure(IApplicationBuilder app)
