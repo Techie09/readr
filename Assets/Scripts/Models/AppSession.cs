@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Readr.Assets.Scripts.Models;
 using UnityEngine;
 
-public class AppSession: MonoBehaviour
+public class AppSession
 {
     public AppUser AppUser { get; private set; }
 
@@ -14,18 +14,7 @@ public class AppSession: MonoBehaviour
 
     public static AppSession Current
     {
-       get { return _current ?? (_current = new GameObject(nameof(AppSession)).AddComponent<AppSession>()); }
-    }
-
-    public void Awake()
-    {
-        if (!_current)
-        {
-            _current = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-            Destroy(gameObject);
+       get { return _current ?? (_current = new AppSession()); }
     }
 
     public AppUser SetCurrentAppUser(AppUser appUser)
@@ -45,11 +34,6 @@ public class AppSession: MonoBehaviour
     public async Task ClearSessionAsync()
     {
         await Task.Run(() => { AppUser = default; UserSession = default; });
-    }
-
-    public void OnDestroy()
-    {
-        Debug.LogWarning("AppSession is Destroyed");
     }
 
     // Start is called before the first frame update

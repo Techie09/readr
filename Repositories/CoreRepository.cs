@@ -19,17 +19,14 @@ namespace Readr.Repositories
 
         public CoreRepository(IMongoDbSettings settings)
         {
-            _client = new MongoClient(settings.ConnectionString);
+            _client = new MongoClient(settings.ConnectionStrings);
             _db = _client.GetDatabase(settings.DatabaseName);
         }
 
-        public async Task Init(string collectionName)
+        public void Init(string collectionName)
         {
-            await new Task(() => 
-            { 
-                CollectionName = collectionName; 
-                _collection = _db.GetCollection<T>(CollectionName); 
-            });
+            CollectionName = collectionName; 
+            _collection = _db.GetCollection<T>(CollectionName); 
         }
 
         protected async IAsyncEnumerable<T> Get()

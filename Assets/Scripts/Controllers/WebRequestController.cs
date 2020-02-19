@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Readr.Assets.Scripts.Models;
 using UnityEngine;
 
@@ -49,9 +50,7 @@ public static class ExtensionMethods
             Debug.Log($"from http response {response.RequestMessage.RequestUri} and produced result: {Environment.NewLine}{json}");
             if(!String.IsNullOrWhiteSpace(json))
             {
-                AppUser jsonResult = new AppUser();
-                //T jsonResult = JsonUtility.FromJson<T>(json.Result);
-                JsonUtility.FromJsonOverwrite(json.Replace(@"\",""), jsonResult);
+                AppUser jsonResult = JsonConvert.DeserializeObject<AppUser>(json);
                 return jsonResult;
             }
             return default;

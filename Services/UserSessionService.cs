@@ -64,6 +64,11 @@ namespace Readr.Services
                 }
 
                 var newUserSession = await UserSession.CreateUserSessionAsync(isbn, description, appUserId);
+                if(newUserSession != null)
+                {
+                    await _userSessionRepo.UpsertUserSession(newUserSession);
+                }
+
                 return await newUserSession.MapToDto();
             }
             catch (Exception ex)

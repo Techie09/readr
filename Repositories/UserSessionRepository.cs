@@ -11,6 +11,7 @@ namespace Readr.Repositories
     {
         public UserSessionRepository(IMongoDbSettings settings) : base(settings)
         {
+            Init("UserSessions");
         }
 
         public async Task<UserSession> UpsertUserSession(UserSession userSession)

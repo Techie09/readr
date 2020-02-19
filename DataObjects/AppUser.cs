@@ -31,13 +31,13 @@ namespace Readr.Models
 
     public static partial class ExtensionMethods
     {
-        public static async Task<AppUserDto> MapToDto(this AppUser appUser)
+        public static AppUserDto MapToDto(this AppUser appUser)
         {
-            return await Task.FromResult(new AppUserDto()
+            return new AppUserDto()
             {
                 Id = appUser.Id.ToString(),
                 Username = appUser.Username
-            });
+            };
         }
     }
 }

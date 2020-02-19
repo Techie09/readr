@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.UserSecrets;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -47,14 +48,14 @@ namespace Readr.Api
         public void ConfigureServices(IServiceCollection services)
         {
             //add MongoDB configurations
-            services.Configure<MongoDbSettings>(
-                _config.GetSection(nameof(MongoDbSettings)));
+            //services.Configure<MongoDbSettings>(
+            //    _config.GetSection(nameof(MongoDbSettings)));
 
-            services.AddSingleton<IMongoDbSettings>(sp => 
-                sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
+            services.AddSingleton<IMongoDbSettings>(sp => _config.GetSection(nameof(MongoDbSettings)).Get<MongoDbSettings>());
 
             services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(options => options.UseMemberCasing());
 
             //handle dependency injections
             services.AddScoped<IAppUserService, AppUserService>();

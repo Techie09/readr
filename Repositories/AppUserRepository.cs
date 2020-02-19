@@ -60,7 +60,7 @@ namespace Readr.Repositories
         /// <returns></returns>
         public async Task<AppUserDto> GetAppUserByIdAsync(string id)
         {
-            return await await _users.Find(u => u.Id == ObjectId.Parse(id)).Project(u => u.MapToDto()).SingleOrDefaultAsync();
+            return await _users.Find(u => u.Id == ObjectId.Parse(id)).Project(u => u.MapToDto()).SingleOrDefaultAsync();
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Readr.Repositories
         /// <returns></returns>
         public async Task<AppUserDto> GetAppUserByUsernameAsync(string username)
         {
-            return await await _users.Find(u => u.Username == username).Project(u => u.MapToDto()).SingleOrDefaultAsync();
+            return await _users.Find(u => u.Username == username).Project(u => u.MapToDto()).SingleOrDefaultAsync();
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Readr.Repositories
         public async Task<AppUserDto> AddAppUserAsync(AppUser appUser)
         {
             await _users.InsertOneAsync(appUser);
-            return await appUser.MapToDto();
+            return appUser.MapToDto();
         }
         #endregion
 

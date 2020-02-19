@@ -9,7 +9,7 @@ namespace Readr.Assets.Scripts.Controllers
 {
     public class UserSessionController : WebRequestController
     {
-        public UserSessionController() : base("http://localhost:5000/session")
+        public UserSessionController() : base("http://localhost:5000/Session")
         {
 
         }
