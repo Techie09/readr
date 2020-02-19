@@ -11,24 +11,65 @@ public abstract class WebRequestController
 
     public WebRequestController(string rootPath = "")
     {
-        _rootPath = !String.IsNullOrWhiteSpace(rootPath) ? rootPath : "http://localhost:5000/";
+        _rootPath = !String.IsNullOrWhiteSpace(rootPath) ? rootPath : "http://localhost:5000";
     }
 
     public async Task<HttpResponseMessage> Post(string uri)
     {
+        return await Post(uri, null);
+    }
+
+    public async Task<HttpResponseMessage> Post(string uri, HttpContent content)
+    {
         try
         {
-            Debug.Log($"Post to { _rootPath}{ uri}");
+            Debug.Log($"Post to { _rootPath}{uri}");
 
             var requestUrl = $"{_rootPath}{uri}";
             HttpClient client = new HttpClient();
-            var response = await client.PostAsync(requestUrl, new StringContent(""));
+            var response = await client.PostAsync(requestUrl, content ?? new StringContent(""));
+            return response;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError(ex);
+            throw;
+        }
+    }
+    public async Task<HttpResponseMessage> Put(string uri)
+    {
+        return await Put(uri, null);
+    }
+
+    public async Task<HttpResponseMessage> Put(string uri, HttpContent content)
+    {
+        try
+        {
+            Debug.Log($"Put to {_rootPath}{uri}");
+
+            var requestUrl = $"{_rootPath}{uri}";
+            HttpClient client = new HttpClient();
+            var response = await client.PutAsync(requestUrl, content ?? new StringContent(""));
+            return response;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError(ex);
+            throw;
+        }
+    }
+
+    public async Task<HttpResponseMessage> Get(string uri)
+    {
+        try
+        {
+            Debug.Log($"Put to {_rootPath}{uri}");
+
+            var requestUrl = $"{_rootPath}{uri}";
+            HttpClient client = new HttpClient();
+            var response = await client.GetAsync(requestUrl);
             return response;
 
-            // Debug.Log(requestUrl);
-            // HttpWebRequest request = (HttpWebRequest)WebRequest.Create(requestUrl);
-            // Debug.Log(request.GetResponse());
-            // return request.GetResponse();
         }
         catch (Exception ex)
         {
@@ -40,42 +81,17 @@ public abstract class WebRequestController
 
 public static class ExtensionMethods
 {
-    public static async Task<AppUser> GetAppUserData(this HttpResponseMessage response)
+    public static async Task<T> GetData<T>(this HttpResponseMessage response)
     {
         try
         {
-            Debug.Log($"Getting Data for {typeof(AppUser)} from {response.Content}");
+            Debug.Log($"Getting Data for {typeof(T)} from {response.Content}");
 
             var json = await response.Content.ReadAsStringAsync();
             Debug.Log($"from http response {response.RequestMessage.RequestUri} and produced result: {Environment.NewLine}{json}");
             if(!String.IsNullOrWhiteSpace(json))
             {
-                AppUser jsonResult = JsonConvert.DeserializeObject<AppUser>(json);
-                return jsonResult;
-            }
-            return default;
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError(ex);
-            throw;
-        }
-    }
-
-    public static async Task<UserSession> GetUserSessionData(this HttpResponseMessage response)
-    {
-        try
-        {
-            Debug.Log($"Getting Data for {typeof(UserSession)} from {response.Content}");
-
-            var json = await response.Content.ReadAsStringAsync();
-            Debug.Log($"from http response {response.RequestMessage.RequestUri} and produced result: {Environment.NewLine}{json}");
-            if (!String.IsNullOrWhiteSpace(json))
-            {
-                UserSession jsonResult = new UserSession();
-                //T jsonResult = JsonUtility.FromJson<T>(json.Result);
-                JsonUtility.FromJsonOverwrite(json, jsonResult);
-                return jsonResult;
+                return JsonConvert.DeserializeObject<T>(json);
             }
             return default;
         }

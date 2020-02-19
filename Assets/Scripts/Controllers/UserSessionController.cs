@@ -17,7 +17,7 @@ namespace Readr.Assets.Scripts.Controllers
         public async Task<UserSession> CreateSessionAsync(string appUserId, string isbn, string description)
         {
             var response = await Post($"/create/{appUserId}/{isbn}/{description}");
-            return await response.GetUserSessionData();
+            return await response.GetData<UserSession>();
         }
     }
 }
