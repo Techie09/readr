@@ -15,13 +15,10 @@ namespace Readr.Models
 
     public static partial class ExtensionMethods
     {
-        public static async Task SetModifiedPropertiesAsync(this ITrackChanges trackChanges, ObjectId modifiedById, DateTime modifiedOn)
+        public static void SetModifiedProperties(this ITrackChanges trackChanges, ObjectId modifiedById, DateTime modifiedOn)
         {
-            await Task.Run(() => 
-            { 
-                trackChanges.ModifiedById = modifiedById; 
-                trackChanges.ModifiedOn = modifiedOn; 
-            });
+            trackChanges.ModifiedById = modifiedById; 
+            trackChanges.ModifiedOn = modifiedOn; 
         }
     }
 }

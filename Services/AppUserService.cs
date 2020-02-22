@@ -6,49 +6,58 @@ using Readr.Services.Interfaces;
 
 namespace Readr.Services
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class AppUserService : IAppUserService, IDisposable
     {
         private IAppUserRepository _appUserRepo;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="appUserRepo"></param>
         public AppUserService(IAppUserRepository appUserRepo)
         {
             _appUserRepo = appUserRepo;
         }
 
+        /// <summary>
+        /// This Will attempt to add an <see cref="AppUser"/> by calling an instance of <see cref="IAppUserRepository"/>
+        /// </summary>
+        /// <param name="username"></param>
+        /// <example>
+        /// Usage:
+        /// <code>
+        /// AppUserService.AddAppUserAsync("test");
+        /// </code>
+        /// </example>
+        /// <returns></returns>
         public async Task<AppUserDto> AddAppUserAsync(string username)
         {
-            try
-            {
-                var existingAppUser = await _appUserRepo.GetAppUserByUsernameAsync(username).ConfigureAwait(false);
+            var existingAppUser = await _appUserRepo.GetAppUserByUsernameAsync(username).ConfigureAwait(false);
 
-                //Check if the username already exists
-                if (existingAppUser == null)
-                {
-                    //if the appUser does not exist, create it
-                    return await _appUserRepo.AddAppUserAsync(AppUser.CreateUserAsync(username).Result).ConfigureAwait(false);
-                }
-
-                //adding appUser failed
-                return null;
-            }
-            catch (Exception ex)
+            //Check if the username already exists
+            if (existingAppUser == null)
             {
-                throw;
+                //if the appUser does not exist, create it
+                return await _appUserRepo.AddAppUserAsync(AppUser.CreateUserAsync(username).Result).ConfigureAwait(false);
             }
+            
+            //adding appUser failed
+            throw new ApplicationException($"User {username} already exists");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
         public async Task<AppUserDto> LoginAppUserAsync(string username)
         {
-            try
-            {
-                //return the AppUser if the AppUserExists. 
-                var existingAppUser = await _appUserRepo.GetAppUserByUsernameAsync(username).ConfigureAwait(false);
-                return existingAppUser;
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            //return the AppUser if the AppUserExists. 
+            var existingAppUser = await _appUserRepo.GetAppUserByUsernameAsync(username).ConfigureAwait(false);
+            return existingAppUser;
         }
 
         #region IDisposable Support

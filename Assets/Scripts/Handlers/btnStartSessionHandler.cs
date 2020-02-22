@@ -45,8 +45,15 @@ public class btnStartSessionHandler : MonoBehaviour
             if(userSessionResult != null)
             {
                 Debug.Log("Session started successfully");
-                await AppSession.Current.SetCurrentSessionAsync(userSessionResult);
-                pnlSetupSession.SetActive(false);
+                var result = AppSession.Current.SetCurrentSession(userSessionResult);
+                if(result != null)
+                {
+                    pnlSetupSession.SetActive(false);
+                }
+                else
+                {
+
+                }
             }
             else
             {

@@ -12,23 +12,20 @@ namespace Readr.Models
         public ObjectId ModifiedById { get; set; }
         public DateTime ModifiedOn { get; set; }
 
-        public static async Task<UserSession> CreateUserSessionAsync(string isbn, string description, string appUserId)
+        public static UserSession CreateUserSession(string isbn, string description, string appUserId)
         {
-            var userSession = await CreateUserSession(isbn, description);
-            await userSession.SetModifiedPropertiesAsync(ObjectId.Parse(appUserId), DateTime.Now);
+            var userSession = CreateUserSession(isbn, description);
+            userSession.SetModifiedProperties(ObjectId.Parse(appUserId), DateTime.Now);
             return userSession;
         }
 
-        protected static Task<UserSession> CreateUserSession(string isbn, string description)
+        protected static UserSession CreateUserSession(string isbn, string description)
         {
-            return Task.FromResult(
-                new UserSession
-                {
+            return new UserSession{
                     Id = ObjectId.GenerateNewId(),
                     Isbn = isbn,
                     Description = description
-                }
-            );
+                };
         }
     }
 

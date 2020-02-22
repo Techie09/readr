@@ -2,16 +2,20 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Readr.Assets.Scripts.Models;
 using UnityEngine;
 
 public abstract class WebRequestController
 {
     private string _rootPath = String.Empty;
 
-    public WebRequestController(string rootPath = "")
+    public WebRequestController()
     {
-        _rootPath = !String.IsNullOrWhiteSpace(rootPath) ? rootPath : "http://localhost:5000";
+        _rootPath = AppSession.Current.ApiServerPath;
+    }
+
+    public WebRequestController(string apiAreaName = "")
+    {
+        _rootPath = AppSession.Current.ApiServerPath + $"/{apiAreaName}";
     }
 
     public async Task<HttpResponseMessage> Post(string uri)
