@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Readr.Assets.Scripts.Models;
 using UnityEngine;
 
-public sealed class AppSession
+public class AppSession
 {
     public AppUser AppUser { get; private set; }
 
@@ -21,7 +21,7 @@ public sealed class AppSession
 
     public static AppSession Current
     {
-       get { return _current ?? (_current = new AppSession()); }
+        get { return _current ?? (_current = new AppSession()); }
     }
 
     public AppUser SetCurrentAppUser(AppUser appUser)

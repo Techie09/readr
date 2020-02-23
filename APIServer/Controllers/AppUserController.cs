@@ -9,7 +9,7 @@ namespace Readr.Api.Controllers
     /// <summary>
     /// 
     /// </summary>
-    [Route("/api/AppUsers")]
+    [Route("api/AppUsers")]
     public class AppUserController : Controller
     {
         private readonly IAppUserService _appUserService;

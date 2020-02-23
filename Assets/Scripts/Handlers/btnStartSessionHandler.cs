@@ -1,5 +1,6 @@
 ﻿using System;
 using Readr.Assets.Scripts.Controllers;
+using Readr.Assets.Scripts.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,11 +38,18 @@ public class btnStartSessionHandler : MonoBehaviour
         try
         {
             Debug.Log("btnStartSession clicked");
-
+            
             string isbn = txtIsbn.text;
             string description = txtDescription.text;
 
-            var userSessionResult = await _userSessionClient.CreateSessionAsync(AppSession.Current.AppUser.id, isbn, description);
+            var newUserSession = new UserSession
+            {
+                Isbn = txtIsbn.text,
+                Description = txtDescription.text,
+                ModifiedById = AppSession.Current.AppUser.id
+            };
+
+            var userSessionResult = await _userSessionClient.CreateSessionAsync(newUserSession);
             if(userSessionResult != null)
             {
                 Debug.Log("Session started successfully");
@@ -52,7 +60,7 @@ public class btnStartSessionHandler : MonoBehaviour
                 }
                 else
                 {
-
+                    //What to do here?!?!?
                 }
             }
             else

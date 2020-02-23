@@ -27,15 +27,15 @@ namespace Readr.Services
         /// <param name="isbn"></param>
         /// <param name="description"></param>
         /// <returns></returns>
-        public async Task<UserSessionDto> CreateUserSessionAsync(string appUserId, string isbn, string description)
+        public async Task<UserSessionDto> UpsertUserSessionAsync(UserSession userSession)
         {
             //validation error Messages
             var errorMessage_IsbnOrDescriptionRequired = "ISBN or desciption is required to continue";
             var errorMessage_IsbnInvalid = "Inavlid ISBN. ISBN must be 10 or 13 digits";
 
             //Define Validation 
-            var isDescriptionNullOrWhitespace = String.IsNullOrWhiteSpace(description);
-            var isIsbnNullorwhiteSpace = String.IsNullOrWhiteSpace(isbn);
+            var isDescriptionNullOrWhitespace = String.IsNullOrWhiteSpace(userSession.Description);
+            var isIsbnNullorwhiteSpace = String.IsNullOrWhiteSpace(userSession.Isbn);
             var isNumericRegex = new Regex(@"^\d+$");
             var isIsbn10or13 = new Func<string, bool>((i) => i.Length == 10 || i.Length == 13); 
             var isIsbnValid = false;
@@ -50,10 +50,12 @@ namespace Readr.Services
             if (!isIsbnNullorwhiteSpace)
             {
                 //try to normalize the data
-                isbn = isbn.Replace("-", String.Empty).Trim();
+                var isbn = userSession.Isbn.Replace("-", String.Empty).Trim();
 
                 //verify that only numbers exist in ISBN and ISBN is either 10 or 13 digits long
                 isIsbnValid = isNumericRegex.IsMatch(isbn) && isIsbn10or13(isbn);
+
+                userSession.Isbn = isbn;
             }
 
             if(!isIsbnValid)
@@ -61,13 +63,13 @@ namespace Readr.Services
                 throw new ArgumentException(errorMessage_IsbnInvalid);
             }
 
-            var newUserSession = UserSession.CreateUserSession(isbn, description, appUserId);
-            if(newUserSession != null)
+            
+            if(userSession != null)
             {
-                await _userSessionRepo.UpsertUserSession(newUserSession);
+                await _userSessionRepo.UpsertUserSession(userSession);
             }
 
-            return await newUserSession.MapToDto();
+            return await userSession.MapToDto();
         }
     }
 }

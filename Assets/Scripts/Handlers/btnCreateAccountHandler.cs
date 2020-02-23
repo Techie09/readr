@@ -42,15 +42,8 @@ public class btnCreateAccountHandler : MonoBehaviour
             {
                 try
                 {
-                    var appUserResult = await _appUserClient.AddAppUserAsync(username);
-                    if (appUserResult != null)
-                    {
-                        lblMessage.text = $"{username} was added successfully";
-                    }
-                    else
-                    {
-                        lblMessage.text = $"Error occured and {username} could not be added";
-                    }
+                    await _appUserClient.AddAppUserAsync(username);
+                    lblMessage.text = $"{username} was added successfully";
                 }
                 catch (Exception ex)
                 {
