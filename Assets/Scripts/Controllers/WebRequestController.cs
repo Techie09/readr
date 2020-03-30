@@ -41,10 +41,12 @@ public abstract class WebRequestController
             Debug.Log($"[HttpPost]{path}{uri}{(content != null ? (" With content: " + Environment.NewLine) : (String.Empty))}{content}");
 
             var requestUrl = $"{path}{uri}";
-            HttpClient client = new HttpClient();
-            content = String.IsNullOrWhiteSpace(content) ? string.Empty : content;
-            var response = await client.PostAsync(requestUrl, new StringContent(content));
-            return response;
+            using (HttpClient client = new HttpClient())
+            {
+                content = String.IsNullOrWhiteSpace(content) ? string.Empty : content;
+                var response = await client.PostAsync(requestUrl, new StringContent(content));
+                return response;
+            }
         }
         catch (Exception ex)
         {
@@ -61,7 +63,6 @@ public abstract class WebRequestController
             Debug.Log($"[HttpPost]{path}{uri}{(content != null ? (" With content: " + Environment.NewLine) : (String.Empty))}{content}");
 
             var requestUrl = $"{path}{uri}";
-            HttpClient client = new HttpClient();
             await PostStreamAsync(requestUrl, HttpMethod.Post, content);
         }
         catch (Exception ex)
@@ -79,7 +80,6 @@ public abstract class WebRequestController
             Debug.Log($"[HttpPost]{path}{uri}{(content != null ? (" With content: " + Environment.NewLine) : (String.Empty))}{content}");
 
             var requestUrl = $"{path}{uri}";
-            HttpClient client = new HttpClient();
             return await PostStreamAsync(requestUrl, HttpMethod.Post, content);
         }
         catch (Exception ex)
@@ -106,7 +106,7 @@ public abstract class WebRequestController
             request.Content = httpContent;
 
             using (var response = await client
-                .SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
+                .SendAsync(request)
                 .ConfigureAwait(false))
             {
                 response.EnsureSuccessStatusCode();
@@ -123,10 +123,10 @@ public abstract class WebRequestController
             request.Content = httpContent;
 
             using (var response = await client
-                .SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
+                .SendAsync(request)
                 .ConfigureAwait(false))
             {
-                response.EnsureSuccessStatusCode();
+                //response.EnsureSuccessStatusCode();
                 return await response.GetData<T>();
             }
         }

@@ -14,6 +14,10 @@ namespace Readr.Api.Controllers
     {
         private readonly IAppUserService _appUserService;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="appUserService"></param>
         public AppUserController(IAppUserService appUserService)
         {
             _appUserService = appUserService;
@@ -65,6 +69,14 @@ namespace Readr.Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Implemented a TryCatch to wrap Controller endpoints.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="func"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
         public IActionResult TryCatch<T, TResult>(Func<T, TResult>  func, T param)
         {
             try

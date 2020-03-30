@@ -56,6 +56,7 @@ public class btnStartSessionHandler : MonoBehaviour
                 var result = AppSession.Current.SetCurrentSession(userSessionResult);
                 if(result != null)
                 {
+                    AppSession.Current.sessionState = SessionState.Running;
                     pnlSetupSession.SetActive(false);
                 }
                 else
