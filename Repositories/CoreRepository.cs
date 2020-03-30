@@ -26,7 +26,14 @@ namespace Readr.Repositories
         public void Init(string collectionName)
         {
             CollectionName = collectionName; 
-            _collection = _db.GetCollection<T>(CollectionName); 
+            var dbCollection = _db.GetCollection<T>(CollectionName);
+            
+            if (dbCollection == null)
+            {
+                _db.CreateCollection(CollectionName);
+                dbCollection = _db.GetCollection<T>(CollectionName);
+            }
+            _collection = dbCollection;
         }
 
         protected async IAsyncEnumerable<T> Get()

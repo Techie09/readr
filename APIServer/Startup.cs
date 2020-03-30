@@ -2,11 +2,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.UserSecrets;
+using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
+using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Readr.Api.InputFormatters;
 using Readr.Models;
 using Readr.Repositories;
 using Readr.Repositories.Interfaces;
@@ -21,9 +22,6 @@ namespace Readr.Api
         private readonly IHostingEnvironment _env;
         private IConfiguration _config;
         private readonly ILoggerFactory _loggerFactory;
-
-        private string _connection = null;
-
 
         public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
@@ -47,21 +45,22 @@ namespace Readr.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //add MongoDB configurations
-            //services.Configure<MongoDbSettings>(
-            //    _config.GetSection(nameof(MongoDbSettings)));
-
-            services.AddSingleton<IMongoDbSettings>(sp => _config.GetSection(nameof(MongoDbSettings)).Get<MongoDbSettings>());
+            services.AddSingleton<IMongoDbSettings>(sp => _config.GetSection(nameof(MongoDbSettings)).Get<MongoDbSettings>())
+                .AddSingleton<IAzureSettings>(ServiceProvider => _config.GetSection(nameof(AzureSettings)).Get<AzureSettings>());
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddJsonOptions(options => options.UseMemberCasing());
+                .AddMvcOptions(o => o.InputFormatters.Insert(0, new RawRequestBodyFormatter()));
+
+            //services.AddControllers()
 
             //handle dependency injections
-            services.AddScoped<IAppUserService, AppUserService>();
-            services.AddScoped<IAppUserRepository, AppUserRepository>();
-            services.AddScoped<IUserSessionService, UserSessionService>();
-            services.AddScoped<IUserSessionRepository, UserSessionRepository>();
+            services.AddScoped<IAppUserService, AppUserService>()
+                .AddScoped<IAppUserRepository, AppUserRepository>()
+                .AddScoped<IUserSessionService, UserSessionService>()
+                .AddScoped<IUserSessionRepository, UserSessionRepository>()
+                .AddScoped<ISessionDetailRepository, SessionDetailRepository>()
+                .AddScoped<IAzureService, AzureService>();
         }
 
         public void Configure(IApplicationBuilder app)

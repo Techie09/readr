@@ -5,6 +5,6 @@ namespace Readr.Services.Interfaces
 {
     public interface IUserSessionService
     {
-        Task<UserSessionDto> CreateUserSessionAsync(string appUserId, string isbn, string description);
+        Task<UserSessionDto> UpsertUserSessionAsync(UserSession userSession);
     }
 }

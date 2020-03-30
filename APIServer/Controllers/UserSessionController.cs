@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Readr.Models;
 using Readr.Services.Interfaces;
 
 namespace Readr.Api.Controllers
 {
-    [Route("Session")]
+    [Route("api/Sessions")]
     public class UserSessionController : Controller
     {
         private readonly IUserSessionService _userSessionService;
@@ -17,14 +16,14 @@ namespace Readr.Api.Controllers
             _userSessionService = userSessionService;
         }
 
-        [HttpPost("create/{appUserId}/{isbn}/{description}")]
-        [HttpPost("update/{appUserId}/{isbn}/{description}")]
-        public async Task<IActionResult> UpsertUserSessionAsync(string appUserId, string isbn, string description)
+        [HttpPost("upsert/")]
+        public async Task<IActionResult> UpsertUserSessionAsync([FromBody]UserSessionDto userSessionDto)
         {
             try
             {
-                var userSession = await _userSessionService.CreateUserSessionAsync(appUserId, isbn, description).ConfigureAwait(false);
-                return Ok(userSession);
+                var userSession = UserSession.CreateUserSession(userSessionDto.Isbn, userSessionDto.Description, userSessionDto.ModifiedById);
+                var userSessionResult = await _userSessionService.UpsertUserSessionAsync(userSession).ConfigureAwait(false);
+                return Ok(userSessionResult);
             }
             catch (Exception ex)
             {

@@ -3,18 +3,42 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Readr.Assets.Scripts.Models;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class AppSession
 {
     public AppUser AppUser { get; private set; }
 
-    public object UserSession { get; private set; }
+    public UserSession UserSession { get; private set; }
+
+    public SessionState sessionState { get; set; }
+
+    public string ApiServerPath { get; private set; }
 
     private static AppSession _current;
 
+    //public AppSession()
+    //{
+    //    ApiServerPath = "http://localhost:5000";
+    //}
+
+    public struct Capabilities
+    {
+        public static string deviceName_WindowsMR = "WindowsMR";
+        public static string deviceName_Hololens = "Hololens";
+
+        public static bool isWindowsMR => XRSettings.loadedDeviceName.ToLower() == deviceName_WindowsMR.ToLower();
+        public static bool isHololens => XRSettings.loadedDeviceName.ToLower() == deviceName_Hololens.ToLower();
+    }
+
     public static AppSession Current
     {
-       get { return _current ?? (_current = new AppSession()); }
+        get {return _current ?? (_current = new AppSession());}
+    }
+
+    public AppSession()
+    {
+        sessionState = SessionState.Initial;
     }
 
     public AppUser SetCurrentAppUser(AppUser appUser)
@@ -24,11 +48,18 @@ public class AppSession
         return appUser;
     }
 
-    public async Task<UserSession> SetCurrentSessionAsync(UserSession session)
+    public UserSession SetCurrentSession(UserSession session)
     {
         Debug.Log($"setting current userSession {session.Id}");
-        await Task.Run(() => { UserSession = session; });
+        UserSession = session;
         return session;
+    }
+
+    public string SetCurrentApiServerPath(string path)
+    {
+        Debug.Log($"setting current ApiServer path {path}");
+        ApiServerPath = path;
+        return path;
     }
 
     public async Task ClearSessionAsync()
@@ -47,4 +78,11 @@ public class AppSession
     //{
 
     //}
+}
+
+public enum SessionState
+{
+    Initial,
+    Running,
+    Paused
 }

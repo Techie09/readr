@@ -33,12 +33,14 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.ComputerVision" Version="6.0.0-dev.20190919.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.1" />
     <PackageReference Include="MongoDB.Bson" Version="2.10.1" />
     <PackageReference Include="MongoDB.Driver" Version="2.10.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.0" />
   </ItemGroup>
   <ItemGroup>
@@ -49,6 +51,11 @@
     <None Include="..\Assets\Readr_logo_200x200.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 </Project>

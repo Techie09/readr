@@ -6,24 +6,21 @@ using UnityEngine;
 
 public class AppUserController : WebRequestController
 {
-    public AppUserController() : base("http://localhost:5000/AppUser")
+    public AppUserController() : base("api/AppUsers")
     {
         
     }
 
-    public async Task<AppUser> AddAppUserAsync(string username)
+    public async Task AddAppUserAsync(string username)
     {
-        return await await Post($"/add/{username}").ContinueWith((response) =>
-            response.Result.GetAppUserData().ContinueWith((jsonResponse) =>
-                AppSession.Current.SetCurrentAppUser(jsonResponse.Result)
-            )
-        );
+        //localhost:5000/AppUser/add/test
+        await Put($"add/{username}");
     }
 
     public async Task<AppUser> LoginAppUserAsync(string username)
     {
-        var postResult = await Post($"/login/{username}");
-        var dataResult = await postResult.GetAppUserData();
+        var postResult = await Post($"login/{username}");
+        var dataResult = await postResult.GetData<AppUser>();
         AppSession.Current.SetCurrentAppUser(dataResult);
         return dataResult;
         //return await ( await Post($"/login/{username}")).GetData<AppUser>();
