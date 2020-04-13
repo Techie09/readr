@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Readr.Assets.Scripts;
 using Readr.Assets.Scripts.Models;
 using UnityEngine;
 

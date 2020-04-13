@@ -38,13 +38,9 @@ namespace Readr.Repositories
             return sessionDetail;
         }
 
-        public async IAsyncEnumerable<SessionDetail> GetSessionDetailByUserSessionId(ObjectId userSessionId)
+        public async Task<SessionDetail> GetSessionDetailByUserSessionId(ObjectId userSessionId)
         {
-            var e = Get(t => t.SessionId == userSessionId).GetAsyncEnumerator();
-            while(await e.MoveNextAsync())
-            {
-                yield return e.Current;
-            }
+            return await GetBy(t => t.SessionId == userSessionId);
         }
 
         public async IAsyncEnumerable<SessionDetail> GetUserSessionByAppUserUserId(ObjectId appUserId)

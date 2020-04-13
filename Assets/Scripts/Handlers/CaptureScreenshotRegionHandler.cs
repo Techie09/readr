@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.IO;
 using System.Linq;
+using Readr.Assets.Scripts;
 using Readr.Assets.Scripts.Controllers;
 using UnityEngine;
 using UnityEngine.Windows.WebCam;

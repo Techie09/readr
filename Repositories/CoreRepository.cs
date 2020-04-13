@@ -65,6 +65,11 @@ namespace Readr.Repositories
             return await _collection.Find(u => u.Id == id).SingleAsync();
         }
 
+        public async Task<T> GetBy(Expression<Func<T,bool>> filter)
+        {
+            return await _collection.Find(filter).SingleAsync();
+        }
+
         protected async Task InsertAsync(T document)
         {
             await _collection.InsertOneAsync(document);

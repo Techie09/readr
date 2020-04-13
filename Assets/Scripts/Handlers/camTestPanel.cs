@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Readr.Assets.Scripts;
 using UnityEngine;
 
 public class camTestPanel : MonoBehaviour

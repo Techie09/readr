@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Readr.Assets.Scripts;
 using UnityEngine;
 
 public abstract class WebRequestController
@@ -72,6 +73,13 @@ public abstract class WebRequestController
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="uri"></param>
+    /// <param name="content">can be null when using url paramaters</param>
+    /// <returns></returns>
     public async Task<T> PostAsync<T>(string uri, T content)
     {
         try
