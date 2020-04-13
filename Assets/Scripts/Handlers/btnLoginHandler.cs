@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Readr.Assets.Scripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,7 +12,6 @@ public class btnLoginHandler : MonoBehaviour
     public Text lblMessage;
     public InputField txtUsername;
     public Button btnLogin;
-    public AppSession appSession;
 
     private AppUserController _appUserClient;
 

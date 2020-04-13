@@ -60,6 +60,7 @@ namespace Readr.Services
                                     Id = ObjectId.GenerateNewId(),
                                     SessionId = sessionId,
                                     ModifiedById = userId,
+                                    
                                     PrintedTextResult = t.Result,
                                 };
 

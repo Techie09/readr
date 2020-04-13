@@ -87,3 +87,4 @@ crashlytics-build.properties
 
 #ignore Unity csproj?
 Assembly-CSharp.csproj
+screenshot.png

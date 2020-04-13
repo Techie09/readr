@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Readr.Assets.Scripts.Models;
+using UnityEngine;
 
 namespace Readr.Assets.Scripts.Controllers
 {
@@ -13,6 +14,20 @@ namespace Readr.Assets.Scripts.Controllers
         public UserSessionController() : base("api/Sessions")
         {
 
+        }
+
+        public async Task<SearchResultsDto> SearchText(string searchWord)
+        {
+            try
+            {
+                var requestUrl = $"id/{AppSession.Current.UserSession.Id}/search/{searchWord}/";
+                return await PostAsync<SearchResultsDto>(requestUrl, null);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(ex);
+                throw;
+            }
         }
 
         public async Task<UserSession> CreateSessionAsync(UserSession newUserSession)

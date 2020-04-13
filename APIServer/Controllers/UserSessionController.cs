@@ -30,5 +30,19 @@ namespace Readr.Api.Controllers
                 return BadRequest(ex);
             }
         }
+
+        [HttpPost("id/{sessionId}/search/{searchText}/")]
+        public async Task<IActionResult> SearchSessionForText(string sessionId, string searchText)
+        {
+            try
+            {
+                var searchSessionResult = await _userSessionService.SearchUserSession(sessionId, searchText).ConfigureAwait(false);
+                return Ok(searchSessionResult);
+            }
+            catch ( Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
     }
 }
