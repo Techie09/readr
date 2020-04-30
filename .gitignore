@@ -94,3 +94,4 @@ Assets/MixedRealityToolkit.Examples.meta
 Unity.TextMeshPro.Player.csproj
 Unity.XR.WindowsMR.Player.csproj
 UnityEngine.TestRunner.Player.csproj
+/Publish

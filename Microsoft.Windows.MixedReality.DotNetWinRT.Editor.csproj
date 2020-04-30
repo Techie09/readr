@@ -64,7 +64,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Dependencies\net46\Microsoft.Windows.MixedReality.DotNetWinRT\Editor\Microsoft.Windows.MixedReality.DotNetWinRT.Init.cs" />
-    <None Include="Assets\Dependencies\net46\Microsoft.Windows.MixedReality.DotNetWinRT\Editor\Microsoft.Windows.MixedReality.DotNetWinRT.Editor.asmdef" />
     <Reference Include="UnityEditor.UI">
       <HintPath>E:/Repos/Readr/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>

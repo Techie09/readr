@@ -29,6 +29,8 @@ namespace Readr.Models
             ResultLine = resultLine;
             ResultRegion = resultRegion;
             ResultDetail = resultDetail;
+            LineNumber = lineNumber;
+            Position = position;
         }
         public String Text => ResultText.Text;
         public string TextBoundingBox => ResultText.BoundingBox;

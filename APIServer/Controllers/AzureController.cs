@@ -26,12 +26,6 @@ namespace Readr.Api.Controllers
 
                 await _azureService.AddScan(userSessionId, imageData);
                 return Ok();
-                //await request.Content.ReadAsByteArrayAsync().ContinueWith(async r =>
-                //{
-                //});
-                throw new Exception("Could not parse request.");
-
-                //throw new HttpRequestException("Unsupported Media Type detected. please use the application/octet-stream.");
             }
             catch (Exception ex)
             {

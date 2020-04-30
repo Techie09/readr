@@ -44,35 +44,21 @@ namespace Readr.Services
             using (var client = Authenticate(GetOcrEndpoint(null), _azureSettings.ApiKey))
             using (var memStream = new MemoryStream(imageData))
             {
-                await client.RecognizePrintedTextInStreamAsync(true, memStream).ContinueWith(async (t) =>
-                {
-                    // After the request, get the operation location (operation ID)
-                    if (t.Status == TaskStatus.RanToCompletion)
-                    {
-                        ObjectId sessionId = ObjectId.Parse(userSessionId);
-                        await _userSessionRepository.GetUserSessionByUserSessionId(sessionId).ContinueWith(async (r) =>
-                        {
-                            if(t.Status == TaskStatus.RanToCompletion)
-                            {
-                                ObjectId userId = r.Result.ModifiedById;
-                                var sessionDetail = new SessionDetail()
-                                {
-                                    Id = ObjectId.GenerateNewId(),
-                                    SessionId = sessionId,
-                                    ModifiedById = userId,
-                                    
-                                    PrintedTextResult = t.Result,
-                                };
+                var recognizePrintedTextResult = await client.RecognizePrintedTextInStreamAsync(true, memStream);
+                ObjectId sessionId = ObjectId.Parse(userSessionId);
+                var userSessionResult = await _userSessionRepository.GetUserSessionByUserSessionId(sessionId);
 
-                                await _sessionDetailRepository.UpsertSessionDetail(sessionDetail);
-                            }
-                        });
-                    }
-                    else
-                    {
-                        //log the error
-                    }
-                });
+                ObjectId modifiedById = userSessionResult.ModifiedById;
+                var sessionDetail = new SessionDetail()
+                {
+                    Id = ObjectId.GenerateNewId(),
+                    SessionId = sessionId,
+                    ModifiedById = modifiedById,
+
+                    PrintedTextResult = recognizePrintedTextResult
+                };
+
+                await _sessionDetailRepository.UpsertSessionDetail(sessionDetail);
             }
 
             return;
@@ -104,47 +90,46 @@ namespace Readr.Services
             using (var client = Authenticate(GetBatchAnaylzeEndpoint(null), _azureSettings.ApiKey))
             using (var memStream = new MemoryStream(imageData))
             {
-                await client.BatchReadFileInStreamAsync(memStream).ContinueWith(async (t) =>
+                var batchReadResult = await client.BatchReadFileInStreamAsync(memStream);
+
+                // After the request, get the operation location (operation ID)
+                string operationLocation = batchReadResult.OperationLocation;
+
+                // Retrieve the URI where the recognized text will be stored from the Operation-Location header.
+                // We only need the ID and not the full URL
+                const int numberOfCharsInOperationId = 36;
+                string operationId = operationLocation.Substring(operationLocation.Length - numberOfCharsInOperationId);
+
+                // Extract the text
+                // Delay is between iterations and tries a maximum of 10 times.
+                int i = 0;
+                int maxRetries = 10;
+                ReadOperationResult results;
+                //Console.WriteLine($"Extracting text from URL image {Path.GetFileName(urlImage)}...");
+                do
                 {
-                    // After the request, get the operation location (operation ID)
-                    string operationLocation = t.Result.OperationLocation;
-
-                    // Retrieve the URI where the recognized text will be stored from the Operation-Location header.
-                    // We only need the ID and not the full URL
-                    const int numberOfCharsInOperationId = 36;
-                    string operationId = operationLocation.Substring(operationLocation.Length - numberOfCharsInOperationId);
-
-                    // Extract the text
-                    // Delay is between iterations and tries a maximum of 10 times.
-                    int i = 0;
-                    int maxRetries = 10;
-                    ReadOperationResult results;
-                    //Console.WriteLine($"Extracting text from URL image {Path.GetFileName(urlImage)}...");
-                    do
+                    results = await client.GetReadOperationResultAsync(operationId);
+                    //Console.WriteLine("Server status: {0}, waiting {1} seconds...", results.Status, i);
+                    await Task.Delay(1000);
+                    if (i == 9)
                     {
-                        results = await client.GetReadOperationResultAsync(operationId);
-                        //Console.WriteLine("Server status: {0}, waiting {1} seconds...", results.Status, i);
-                        await Task.Delay(1000);
-                        if (i == 9)
-                        {
-                            throw new System.Exception("Server Timed Out");
-                            //Console.WriteLine("Server timed out.");
-                        }
+                        throw new System.Exception("Server Timed Out");
+                        //Console.WriteLine("Server timed out.");
                     }
-                    while ((results.Status == TextOperationStatusCodes.Running || results.Status == TextOperationStatusCodes.NotStarted) && i++ < maxRetries);
+                }
+                while ((results.Status == TextOperationStatusCodes.Running || results.Status == TextOperationStatusCodes.NotStarted) && i++ < maxRetries);
 
-                    // Display the found text.
-                    var textRecognitionLocalFileResults = results.RecognitionResults;
-                    foreach (TextRecognitionResult recResult in textRecognitionLocalFileResults)
+                // Display the found text.
+                var textRecognitionLocalFileResults = results.RecognitionResults;
+                foreach (TextRecognitionResult recResult in textRecognitionLocalFileResults)
+                {
+                    var pagenumber = recResult.Page;
+                    foreach (Line line in recResult.Lines)
                     {
-                        var pagenumber = recResult.Page;
-                        foreach (Line line in recResult.Lines)
-                        {
-                            //Console.WriteLine(line.Text);
+                        //Console.WriteLine(line.Text);
 
-                        }
                     }
-                });
+                }
             }
 
             return;
