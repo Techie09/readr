@@ -4,7 +4,7 @@ using System.Linq;
 using Readr.Assets.Scripts;
 using Readr.Assets.Scripts.Controllers;
 using UnityEngine;
-using UnityEngine.Windows.WebCam;
+using UnityEngine.XR.WSA.WebCam;
 
 /// <summary>
 /// 

@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class btnLoginHandler : MonoBehaviour
 {
     public Text lblMessage;
-    public InputField txtUsername;
+    public TMPro.TMP_InputField txtUsername;
     public Button btnLogin;
 
     private AppUserController _appUserClient;

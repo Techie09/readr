@@ -1,7 +1,12 @@
 fileFormatVersion: 2
 guid: e83b7c8b3445dd64da184c1c563abeb3
-DefaultImporter:
+ScriptedImporter:
+  fileIDToRecycleName:
+    11400000: Readr.Dependencies.msb4u
   externalObjects: {}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+  script: {fileID: 11500000, guid: 0e4dca1acba66fd478b3854f09a32ec7, type: 3}
+  buildEngine: 0
+  profiles: []

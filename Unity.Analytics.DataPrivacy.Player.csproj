@@ -5,9 +5,9 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C70B59DA-D9DA-A438-461D-CF1C5BEF2B25}</ProjectGuid>
+    <ProjectGuid>{F94A1381-2A69-C3EA-1E9C-7DFAF54F330E}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AssemblyName>Microsoft.MixedReality.Toolkit.Services.SpatialAwarenessSystem-player</AssemblyName>
+    <AssemblyName>Unity.Analytics.DataPrivacy-player</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
@@ -47,9 +47,6 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.MixedReality.Toolkit">
-      <HintPath>Library/ScriptAssemblies/Microsoft.MixedReality.Toolkit.dll</HintPath>
-    </Reference>
     <Reference Include="MetroSupport/Managed/il2cpp/UnityEngine">
       <HintPath>C:\Program Files\Unity\Editor\2018.4.21f1\Editor\Data\PlaybackEngines\MetroSupport/Managed/il2cpp/UnityEngine.dll</HintPath>
     </Reference>
@@ -865,8 +862,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\MixedRealityToolkit.Services\SpatialAwarenessSystem\AssemblyInfo.cs" />
-    <Compile Include="Assets\MixedRealityToolkit.Services\SpatialAwarenessSystem\MixedRealitySpatialAwarenessSystem.cs" />
+    <Compile Include="Packages\com.unity.analytics\DataPrivacy\AssemblyInfo.cs" />
+    <Compile Include="Packages\com.unity.analytics\DataPrivacy\DataPrivacy.cs" />
+    <Compile Include="Packages\com.unity.analytics\DataPrivacy\DataPrivacyButton.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

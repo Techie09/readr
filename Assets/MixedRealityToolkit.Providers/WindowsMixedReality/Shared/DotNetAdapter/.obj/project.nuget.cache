@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "CwkepH0kGP96tgfAn2lfffQA+gcEAxwhbew7EVMmarDgaQhi5TZGh7hvUhYMZu61sDhbu8FxiWvaKA7I4JGjbg==",
+  "dgSpecHash": "yr1pV891lifT1CYS0mjT97GT7LVayd6FL82OoM4nOy4HPw6jSWp4CR4vdHuqhXKeKX7rp6z1MijiGGl8Q4M/Hg==",
   "success": true,
-  "projectFilePath": "E:\\Repos\\Readr\\Assets\\MixedRealityToolkit.Providers\\WindowsMixedReality\\Shared\\DotNetAdapter\\DotNetAdapter.csproj",
+  "projectFilePath": "E:\\Repos\\Readr_new2final\\Assets\\MixedRealityToolkit.Providers\\WindowsMixedReality\\Shared\\DotNetAdapter\\DotNetAdapter.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\KT9\\.nuget\\packages\\microsoft.windows.mixedreality.dotnetwinrt\\0.5.1045\\microsoft.windows.mixedreality.dotnetwinrt.0.5.1045.nupkg.sha512",
     "C:\\Users\\KT9\\.nuget\\packages\\system.drawing.primitives\\4.3.0\\system.drawing.primitives.4.3.0.nupkg.sha512"

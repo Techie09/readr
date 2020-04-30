@@ -2,9 +2,9 @@
   
   <!-- These are specific to this Unity project and can't be overridden -->
   <PropertyGroup>
-    <UnityProjectAssetsPath>E:\Repos\Readr\Assets</UnityProjectAssetsPath>
+    <UnityProjectAssetsPath>E:\Repos\Readr_new2final\Assets</UnityProjectAssetsPath>
     
-    <_MSBuildForUnityGeneratedOutputDirectory>E:\Repos\Readr\MSBuild</_MSBuildForUnityGeneratedOutputDirectory>
+    <_MSBuildForUnityGeneratedOutputDirectory>E:\Repos\Readr_new2final\MSBuild</_MSBuildForUnityGeneratedOutputDirectory>
     <MSBuildForUnityGeneratedProjectDirectory>$(_MSBuildForUnityGeneratedOutputDirectory)\Projects</MSBuildForUnityGeneratedProjectDirectory>
   </PropertyGroup>
   
@@ -21,9 +21,9 @@
     <UnityCurrentPlatform>WSA</UnityCurrentPlatform>
     <UnityCurrentTargetFramework>net46</UnityCurrentTargetFramework>
     
-    <UnityMajorVersion>2019</UnityMajorVersion>
-    <UnityMinorVersion>2</UnityMinorVersion>
-    <UnityEditorInstallPath>C:\Program Files\Unity\Editor\2019.2.15f1\Editor</UnityEditorInstallPath>
+    <UnityMajorVersion>2018</UnityMajorVersion>
+    <UnityMinorVersion>4</UnityMinorVersion>
+    <UnityEditorInstallPath>C:\Program Files\Unity\Editor\2018.4.21f1\Editor</UnityEditorInstallPath>
   </PropertyGroup>
   
   <PropertyGroup>
