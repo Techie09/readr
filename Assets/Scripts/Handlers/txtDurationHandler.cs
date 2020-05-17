@@ -11,20 +11,11 @@ public class txtDurationHandler : MonoBehaviour
     {
         duration = 0;
         obj = GetComponent<Text>();
-        obj.enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Check if the Session has been initialized. TODO: later make a paused state?
-        if (AppSession.Current.sessionState != SessionState.Running)
-        {
-            obj.enabled = false;
-            return;
-        }
-
-        obj.enabled = true;
         UpdateSessionDuration();
 
         obj.text = GetTimerDisplay();

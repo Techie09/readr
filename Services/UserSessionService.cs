@@ -94,17 +94,18 @@ namespace Readr.Services
         {
             var result = new SearchResultsDto();
             var sessionDetailsFound = await _sessionDetailRepo.GetSessionDetailByUserSessionId(ObjectId.Parse(userSessionId)).ConfigureAwait(false);
+            //var rawText = String.Empty;
             try
             {
                 var detail = sessionDetailsFound.PrintedTextResult;
                 var regions = detail.Regions;
-                Parallel.ForEach(regions, (OcrRegion region) =>
+                foreach(OcrRegion region in regions)
                 {
                     var lines = region.Lines;
-                    Parallel.ForEach(lines, (OcrLine line) =>
+                    foreach(OcrLine line in lines)
                     {
                         var words = line.Words;
-                        Parallel.ForEach(words, (OcrWord word) =>
+                        foreach(OcrWord word in words)
                         {
                             if (word.Text.ToLower().Contains(searchText.ToLower())) //Searh for match
                             {
@@ -150,7 +151,7 @@ namespace Readr.Services
                                 var resultLine = new SearchResultLine()
                                 {
                                     BoundingBox = line.BoundingBox,
-                                    Text = new List<SearchResultText>() { resultText }
+                                    Text = words.Select(w => new SearchResultText() { BoundingBox = w.BoundingBox, Text = w.Text }).ToList()
                                 };
 
                                 var resultRegion = new SearchResultRegion()
@@ -173,9 +174,9 @@ namespace Readr.Services
                                 //add to results
                                 result.ResultDetails.Add(resultDetails);
                             }
-                        });
-                    });
-                });
+                        }
+                    }
+                }
             }
             finally
             {

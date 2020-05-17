@@ -88,3 +88,10 @@ crashlytics-build.properties
 #ignore Unity csproj?
 Assembly-CSharp.csproj
 screenshot.png
+MRTKBuild/
+Assets/MixedRealityToolkit.Examples/
+Assets/MixedRealityToolkit.Examples.meta
+Unity.TextMeshPro.Player.csproj
+Unity.XR.WindowsMR.Player.csproj
+UnityEngine.TestRunner.Player.csproj
+/Publish

@@ -31,15 +31,9 @@ namespace Readr.Assets.Scripts.Models
             ResultLine = resultLine;
             ResultRegion = resultRegion;
             ResultDetail = resultDetail;
+            LineNumber = lineNumber;
+            Position = position;
         }
-        public String Text => ResultText.Text;
-        public string TextBoundingBox => ResultText.BoundingBox;
-        public string LineBoundingBox => ResultLine.BoundingBox;
-        public string RegionBoundingBox => ResultRegion.BoundingBox;
-        public string Language => ResultDetail.Language;
-        public double TextAngle => ResultDetail.TextAngle;
-        public string Orientation => ResultDetail.Orientation;
-        public List<SearchResultText> LineText => ResultLine.Text;
         public int LineNumber { get; set; }
         public int Position { get; set; }
         public SearchResultText ResultText { get; set; }

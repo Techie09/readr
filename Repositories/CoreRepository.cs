@@ -34,6 +34,9 @@ namespace Readr.Repositories
                 dbCollection = _db.GetCollection<T>(CollectionName);
             }
             _collection = dbCollection;
+
+            if (_collection == null)
+                throw new Exception("collection was null even though we tried to create it");
         }
 
         protected async IAsyncEnumerable<T> Get()

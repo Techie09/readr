@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Readr.Assets.Scripts;
 using Readr.Assets.Scripts.Controllers;
 using UnityEngine;
@@ -13,6 +14,7 @@ using UnityEngine.Windows.WebCam;
 public class CaptureScreenshotRegionHandler : MonoBehaviour
 {
     public RectTransform rectT; // Assign the UI element which you wanna capture\
+    public imgConfidenceLevelHandler imgHandler;
     public string screenshotFileName = "screenshot.png";
 
     private PhotoCapture photoCaptureObject;
@@ -65,7 +67,7 @@ public class CaptureScreenshotRegionHandler : MonoBehaviour
     /// Begin process of Image Capturing and send To Azure     
     /// Computer Vision service.   
     /// </summary>    
-    private void ExecuteImageCaptureAndAnalysis()
+    private async Task ExecuteImageCaptureAndAnalysis()
     {
         var isNewCapture = false;
         if (AppSession.Capabilities.isWindowsMR)
@@ -84,8 +86,9 @@ public class CaptureScreenshotRegionHandler : MonoBehaviour
         if (isNewCapture)
         {
             AnalysedObject result = null;
-            var taskResult = _azureController.PostVisionAnalysisAsync<AnalysedObject>(GetScreenshotFilePath());
-            taskResult.ContinueWith(s => result = s.Result);
+            var taskResult = await _azureController.PostVisionAnalysisAsync<AnalysedObject>(GetScreenshotFilePath());
+            imgHandler.SetConfidenceLevel(1);
+            //TODO: update color indicator
         }
     }
 

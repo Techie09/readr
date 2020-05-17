@@ -5,36 +5,51 @@ using UnityEngine.UI;
 public class imgConfidenceLevelHandler : MonoBehaviour
 {
     private Image image;
+    private float duration;
+    private float _currectConfidenceLevel;
+    private float _newConfidenceLevel;
+
+    public void SetConfidenceLevel(float confidenceLevel)
+    {
+        _newConfidenceLevel = confidenceLevel;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         image = GetComponent<Image>();
-        image.enabled = false;
+        image.color = Color.gray;
+        duration = 5;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (AppSession.Current.sessionState != SessionState.Running)
+        duration += Time.deltaTime;
+
+        if(_newConfidenceLevel > 0 && _currectConfidenceLevel != _newConfidenceLevel)
         {
-            image.enabled = false;
+            if (_newConfidenceLevel >= 0.80)
+            {
+                image.color = Color.green;
+            }
+            else if (_newConfidenceLevel >= 0.60)
+            {
+                image.color = Color.yellow;
+            }
+            else
+            {
+                image.color = Color.red;
+            }
+            _currectConfidenceLevel = _newConfidenceLevel;
+            duration = 0;
             return;
         }
 
-        image.enabled = true;
-        var confidenceLevel = 0.98f;
-        if (confidenceLevel >= 0.80)
+        if (duration > 5)
         {
-            image.color = Color.green;
-        }
-        else if (confidenceLevel >= 0.60)
-        {
-            image.color = Color.yellow;
-        }
-        else
-        {
-            image.color = Color.red;
+            image.color = Color.gray;
+            _newConfidenceLevel = -1;
         }
     }
 }
