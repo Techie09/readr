@@ -19,5 +19,8 @@ To view Documentation on the Readr project visit the [Readr Wiki](https://github
 ## Installation
 To install the project, view the [latest Release](https://github.com/Techie09/readr/releases) and download the Assets to get started.
 
+## Powerpoint Presentation
+[CapstonePresentation.pptx](https://github.com/Techie09/readr/files/4641648/CapstonePresentation.pptx)
+
 ## Brief Demo of current Progress
 https://www.youtube.com/watch?v=Wmve3JyjLhA&feature=youtu.be
