@@ -18,3 +18,6 @@ To view Documentation on the Readr project visit the [Readr Wiki](https://github
 
 ## Installation
 To install the project, view the [latest Release](https://github.com/Techie09/readr/releases) and download the Assets to get started.
+
+## Brief Demo of current Progress
+https://www.youtube.com/watch?v=Wmve3JyjLhA&feature=youtu.be
