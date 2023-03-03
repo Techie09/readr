@@ -9,7 +9,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="MongoDB.Bson" Version="2.10.1" />
-    <PackageReference Include="MongoDB.Driver" Version="2.10.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.19.0" />
     <PackageReference Include="MongoDB.Driver.Core" Version="2.10.1" />
     <PackageReference Include="Unity" Version="5.11.3" />
   </ItemGroup>
